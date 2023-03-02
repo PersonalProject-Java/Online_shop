@@ -1,4 +1,6 @@
 <template>
+  <v-container>
+  <MyNavbar @drawe="drawer = !drawer"/>
   <v-navigation-drawer
     v-model="drawer"
     app
@@ -13,10 +15,11 @@
     </v-avatar>
 
     <v-card flat color="#151515" class="rounded-xl mx-4 py-10">
-      <v-list flat class="" dark>
+      <v-list flat class="dark">
         <v-list-item-group v-model="selectedItem">
           <v-list-item
             v-for="(item, i) in items"
+            :to="item.path"
             :key="i"
             active-class="border"
             v-slot="{ active }"
@@ -26,6 +29,7 @@
               <v-icon
                 v-text="item.icon"
                 :color="active ? 'white' : 'grey lighten-1'"
+
               ></v-icon>
             </v-list-item-content>
           </v-list-item>
@@ -52,22 +56,31 @@
       </v-avatar>
     </div>
   </v-navigation-drawer>
+    <RightSideBar />
+  </v-container>
 </template>
-
 <script>
+import MyNavbar from "@/components/MyNavbar";
+import RightSideBar from "@/components/RightSideBar";
+
 export default {
+  components:{
+    MyNavbar,
+    RightSideBar
+  },
   data: () => ({
+    drawer:true,
     selectedItem: 0,
 
     items: [
-      { icon: "mdi-home-outline" },
-      { icon: "mdi-cart-outline" },
-      { icon: "mdi-store-outline" },
+      { icon: "mdi-home-outline",path:'/' },
+      { icon: "mdi-cart-outline",path: '/register' },
+      { icon: "mdi-store-outline",path: '/login'},
       { icon: "mdi-calendar-check-outline" },
       { icon: "mdi-apps" },
     ],
   }),
-  props: ["drawer"],
+
   watch: {
     drawer(value) {
       return value;
